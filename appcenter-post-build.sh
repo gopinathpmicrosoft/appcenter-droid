@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 HOCKEYAPP_API_TOKEN={API_Token}
 HOCKEYAPP_APP_ID={APP_ID}
 
