@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-echo "Current branch is $APPCENTER_BRANCH"
+echo "Current branch is $APPCENTER_OUTPUT_DIRECTORY"
