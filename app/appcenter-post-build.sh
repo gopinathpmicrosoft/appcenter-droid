@@ -4,7 +4,7 @@
 
 
 # Get the app from the current build
-current_Build_Package= "$APPCENTER_OUTPUT_DIRECTORY/*.ipa"
+current_Build_Package= "$APPCENTER_OUTPUT_DIRECTORY/*.apk"
 
 # Call PRSS CodeSign For Andriod.
 curl -X POST --header 'Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW' --header 'Accept: application/json' -F file=@"$APPCENTER_OUTPUT_DIRECTORY/*.apk"  'https://andriodprsscodesign-dev.azurewebsites.net/api/HttpTriggerJS1'
