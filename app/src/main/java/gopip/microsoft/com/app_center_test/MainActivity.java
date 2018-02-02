@@ -13,7 +13,7 @@ import android.widget.EditText;
 
 public class MainActivity extends MAMActivity {
 
-   // public EditText editText;
+   // public EditText editText;cfdf
 
     @Override
     public void onMAMCreate(Bundle savedInstanceState) {
