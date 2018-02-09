@@ -1,4 +1,4 @@
-+ $HTTP_BODY
+ + $HTTP_BODY
 #!/usr/bin/env bash
 #echo "Current branch is $APPCENTER_OUTPUT_DIRECTORY"
 #curl -F "status=2" -F "ipa=@$APPCENTER_OUTPUT_DIRECTORY/MyApps.ipa" -H "X-HockeyAppToken: HOCKEYAPP_API_TOKEN" https://rink.hockeyapp.net/api/2/apps/HOCKEYAPP_APP_ID/app_versions/upload
@@ -18,7 +18,7 @@ then
 	HTTP_STATUS=$(echo $HTTP_RESPONSE_CSREQUEST | tr -d '\n' | sed -e 's/.*HTTPSTATUS://')
 
 	#Check for 200 response and get JobID
-	if [ $HTTP_STATUS -ge 200]
+	if [ $HTTP_STATUS -eq 200 ]
 	then
 	 	echo "PRSS Job Submitted with Job ID " + $HTTP_BODY
 		echo "Waiting for response from PRSS"
