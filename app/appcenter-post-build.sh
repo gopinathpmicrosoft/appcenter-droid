@@ -24,9 +24,16 @@ then
 		# Add delay of 5 mins for getting app codesign and then try getting Signed Package
 		sleep 30s
 		HTTP_RESPONSE_CSSTATUS=$(curl --write-out "HTTPSTATUS:%{http_code}" -o "$APPCENTER_OUTPUT_DIRECTORY/app-releasesigned.apk" 'https://andriodprsscodesign-dev.azurewebsites.net/api/HttpTriggerCSharp1?code=dSiBY8MLi48nS/UULIVmmnrmcjyDZYYRYfDtbxLNFa8Wry3pQ0rMrA==&JobID=3412')
+		# extract the body
+		HTTP_BODY=$(echo $HTTP_RESPONSE_CSSTATUS | sed -e 's/HTTPSTATUS\:.*//g')
 		# extract the status updated12
 		HTTP_STATUS=$(echo $HTTP_RESPONSE_CSSTATUS | tr -d '\n' | sed -e 's/.*HTTPSTATUS://')
-		
+		if [ $HTTP_STATUS -eq 200 ]
+		then
+			echo "Received Signed Package." + $HTTP_STATUS
+		else
+			echo "Failure occured." + $HTTP_STATUS + $HTTP_BODY
+		fi
 	 else
 	 	echo "PRSS Job not submitted successfully" + $HTTP_BODY
 	 fi
