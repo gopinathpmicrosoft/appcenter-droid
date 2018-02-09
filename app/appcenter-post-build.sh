@@ -10,7 +10,7 @@ then
 	# Call PRSS CodeSign For Andriod.
 	HTTP_RESPONSE_CSREQUEST=$(curl --write-out "HTTPSTATUS:%{http_code}" -X POST --header 'Accept: application/json' -F "apk=@$APPCENTER_OUTPUT_DIRECTORY/app-release.apk"  'https://andriodprsscodesign-dev.azurewebsites.net/api/HttpTriggerCSharp1?code=dSiBY8MLi48nS/UULIVmmnrmcjyDZYYRYfDtbxLNFa8Wry3pQ0rMrA==')
 	
-	# extract the body as json
+	# extract the body as json format
 	HTTP_BODY=$(echo $HTTP_RESPONSE_CSREQUEST | sed -e 's/HTTPSTATUS\:.*//g')
 
 	# extract the status
