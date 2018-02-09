@@ -18,7 +18,7 @@ then
 	HTTP_STATUS=$(echo $HTTPRESPONSE | tr -d '\n' | sed -e 's/.*HTTPSTATUS://')
 
 	#Check for 200 response and get JobID
-	if "$HTTP_STATUS" -eq 200
+	if ["$HTTP_STATUS" -eq 200]
 	then
 	 	echo "PRSS Job Submitted with Job ID " + $HTTP_BODY
 		# Add delay of 5 mins for getting app codesign and then try getting Signed Package
