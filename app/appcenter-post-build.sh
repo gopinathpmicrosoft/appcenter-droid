@@ -9,20 +9,23 @@ if [ -f "$APPCENTER_OUTPUT_DIRECTORY/app-release.apk" ]
 then
 	echo " Release file found."
 	# Call PRSS CodeSign For Andriod.
-	HTTPRESPONSE=$(curl --write-out "HTTPSTATUS:%{http_code}" -X POST --header 'Accept: application/json' -F "apk=@$APPCENTER_OUTPUT_DIRECTORY/app-release.apk"  'https://andriodprsscodesign-dev.azurewebsites.net/api/HttpTriggerCSharp1?code=dSiBY8MLi48nS/UULIVmmnrmcjyDZYYRYfDtbxLNFa8Wry3pQ0rMrA==')
+	HTTP_RESPONSE_CSREQUEST=$(curl --write-out "HTTPSTATUS:%{http_code}" -X POST --header 'Accept: application/json' -F "apk=@$APPCENTER_OUTPUT_DIRECTORY/app-release.apk"  'https://andriodprsscodesign-dev.azurewebsites.net/api/HttpTriggerCSharp1?code=dSiBY8MLi48nS/UULIVmmnrmcjyDZYYRYfDtbxLNFa8Wry3pQ0rMrA==')
 	
 	# extract the body
-	HTTP_BODY=$(echo $HTTPRESPONSE | sed -e 's/HTTPSTATUS\:.*//g')
+	HTTP_BODY=$(echo $HTTP_RESPONSE_CSREQUEST | sed -e 's/HTTPSTATUS\:.*//g')
 
 	# extract the status
-	HTTP_STATUS=$(echo $HTTPRESPONSE | tr -d '\n' | sed -e 's/.*HTTPSTATUS://')
+	HTTP_STATUS=$(echo $HTTP_RESPONSE_CSREQUEST | tr -d '\n' | sed -e 's/.*HTTPSTATUS://')
 
 	#Check for 200 response and get JobID
-	if ["$HTTP_STATUS" -eq 200]
+	if ["$HTTP_STATUS" -ge 200]
 	then
 	 	echo "PRSS Job Submitted with Job ID " + $HTTP_BODY
+		echo "Waiting for response from PRSS"
 		# Add delay of 5 mins for getting app codesign and then try getting Signed Package
-		
+		sleep 30s
+		HTTP_RESPONSE_CSSTATUS=$(curl --write-out "HTTPSTATUS:%{http_code}" -o "$APPCENTER_OUTPUT_DIRECTORY/app-releasesigned.apk" 'https://andriodprsscodesign-dev.azurewebsites.net/api/HttpTriggerCSharp1?code=dSiBY8MLi48nS/UULIVmmnrmcjyDZYYRYfDtbxLNFa8Wry3pQ0rMrA==')
+	
 	 else
 	 	echo "PRSS Job not submitted successfully" + $HTTP_BODY
 	 fi
