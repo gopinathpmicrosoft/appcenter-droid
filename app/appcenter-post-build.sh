@@ -24,7 +24,7 @@ then
 		# Add delay of 5 mins for getting app codesign and then try getting Signed Package
 		
 	 else
-	 
+	 	echo "PRSS Job not submitted successfully"
 	 fi
 else
 	echo " not found."
