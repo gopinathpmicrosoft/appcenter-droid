@@ -1,4 +1,3 @@
- + $HTTP_BODY
 #!/usr/bin/env bash
 #echo "Current branch is $APPCENTER_OUTPUT_DIRECTORY"
 #curl -F "status=2" -F "ipa=@$APPCENTER_OUTPUT_DIRECTORY/MyApps.ipa" -H "X-HockeyAppToken: HOCKEYAPP_API_TOKEN" https://rink.hockeyapp.net/api/2/apps/HOCKEYAPP_APP_ID/app_versions/upload
@@ -25,7 +24,14 @@ then
 		# Add delay of 5 mins for getting app codesign and then try getting Signed Package
 		sleep 30s
 		HTTP_RESPONSE_CSSTATUS=$(curl --write-out "HTTPSTATUS:%{http_code}" -o "$APPCENTER_OUTPUT_DIRECTORY/app-releasesigned.apk" 'https://andriodprsscodesign-dev.azurewebsites.net/api/HttpTriggerCSharp1?code=dSiBY8MLi48nS/UULIVmmnrmcjyDZYYRYfDtbxLNFa8Wry3pQ0rMrA==')
-	
+		# extract the status
+		HTTP_STATUS=$(echo $HTTP_RESPONSE_CSSTATUS | tr -d '\n' | sed -e 's/.*HTTPSTATUS://')
+		if [ $HTTP_STATUS -eq 200 ]
+		then
+			echo "Received Signed Package."
+		else
+			exit -1
+		fi
 	 else
 	 	echo "PRSS Job not submitted successfully" + $HTTP_BODY
 	 fi
