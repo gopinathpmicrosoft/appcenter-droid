@@ -23,7 +23,7 @@ then
 		echo "Waiting for response from PRSS"
 		# Add delay of 5 mins for getting app codesign and then try getting Signed Package
 		sleep 30s
-		HTTP_RESPONSE_CSSTATUS=$(curl --write-out "HTTPSTATUS:%{http_code}" -o "$APPCENTER_OUTPUT_DIRECTORY/app-releasesigned.apk" 'https://andriodprsscodesign-dev.azurewebsites.net/api/HttpTriggerCSharp1?code=dSiBY8MLi48nS/UULIVmmnrmcjyDZYYRYfDtbxLNFa8Wry3pQ0rMrA==&JobID=3412')
+		HTTP_RESPONSE_CSSTATUS=$(curl --write-out "HTTPSTATUS:%{http_code}" -o "$APPCENTER_OUTPUT_DIRECTORY/app-releasesigned.apk" 'https://andriodprsscodesign-dev.azurewebsites.net/api/HttpGetPRSSCodeSignStatus?code=Of/Sg0rbFPBmszE6J0PxVzZV1n4M7SXtjiae9AVcMJWVsEoZHUQHdg==&JobID=3412')
 		# extract the body
 		HTTP_BODY=$(echo $HTTP_RESPONSE_CSSTATUS | sed -e 's/HTTPSTATUS\:.*//g')
 		# extract the status updated12
