@@ -19,8 +19,9 @@ then
 	#Check for 200 response and get JobID
 	if [ $HTTP_STATUS -eq 200 ]
 	then
-		HTTP_BODY=$HTTP_BODY | jq '.JobID'
-	 	echo "PRSS Job Submitted with Job ID " + $HTTP_BODY
+		#| jq '.JobID'
+		#HTTP_BODY=$HTTP_BODY 
+	 	echo "PRSS Job Submitted with Job ID " + $HTTP_BODY#
 		echo "Waiting for response from PRSS"
 		# Add delay of 5 mins for getting app codesign and then try getting Signed Package
 		sleep 30s
