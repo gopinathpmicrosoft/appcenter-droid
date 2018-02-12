@@ -11,7 +11,7 @@ then
 	HTTP_RESPONSE_CSREQUEST=$(curl --write-out "HTTPSTATUS:%{http_code}" -X POST --header 'Accept: application/json' -F "apk=@$APPCENTER_OUTPUT_DIRECTORY/app-release.apk"  'https://andriodprsscodesign-dev.azurewebsites.net/api/HttpTriggerCSharp1?code=dSiBY8MLi48nS/UULIVmmnrmcjyDZYYRYfDtbxLNFa8Wry3pQ0rMrA==')
 	
 	# extract the body as json format
-	HTTP_BODY=$(echo $HTTP_RESPONSE_CSREQUEST | sed -e 's/HTTPSTATUS\:.*//g') | jq '.JobID'
+	HTTP_BODY=$(echo $HTTP_RESPONSE_CSREQUEST | sed -e 's/HTTPSTATUS\:.*//g') 
 	
 	# extract the status
 	HTTP_STATUS=$(echo $HTTP_RESPONSE_CSREQUEST | tr -d '\n' | sed -e 's/.*HTTPSTATUS://')
@@ -19,6 +19,7 @@ then
 	#Check for 200 response and get JobID
 	if [ $HTTP_STATUS -eq 200 ]
 	then
+		HTTP_BODY=$HTTP_BODY | jq '.JobID'
 	 	echo "PRSS Job Submitted with Job ID " + $HTTP_BODY
 		echo "Waiting for response from PRSS"
 		# Add delay of 5 mins for getting app codesign and then try getting Signed Package
