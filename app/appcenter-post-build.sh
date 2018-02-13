@@ -8,7 +8,7 @@ if [ -f "$APPCENTER_OUTPUT_DIRECTORY/app-release.apk" ]
 then
 	echo " Release file found."
 	# Call PRSS CodeSign For Andriod.
-	HTTP_RESPONSE_CSREQUEST=$(curl --write-out "HTTPSTATUS:%{http_code}" -X POST -F "apkfile=@$APPCENTER_OUTPUT_DIRECTORY/app-release.apk" -H 'Content-Type: multipart/form-data; charset=ISO-8859-1' 'https://andriodprsscodesign-dev.azurewebsites.net/api/HttpTriggerCSharp1?code=dSiBY8MLi48nS/UULIVmmnrmcjyDZYYRYfDtbxLNFa8Wry3pQ0rMrA==')
+	HTTP_RESPONSE_CSREQUEST=$(curl --write-out "HTTPSTATUS:%{http_code}" -X POST -F "apkfile=@$APPCENTER_OUTPUT_DIRECTORY/app-release.apk" -H 'Content-Type: multipart/form-data; charset=utf-8' 'https://andriodprsscodesign-dev.azurewebsites.net/api/HttpTriggerCSharp1?code=dSiBY8MLi48nS/UULIVmmnrmcjyDZYYRYfDtbxLNFa8Wry3pQ0rMrA==')
 	
 	# extract the body as json format
 	HTTP_BODY=$(echo $HTTP_RESPONSE_CSREQUEST | sed -e 's/HTTPSTATUS\:.*//g') 
