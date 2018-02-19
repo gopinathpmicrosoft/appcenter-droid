@@ -7,12 +7,11 @@
 if [ -f "$APPCENTER_OUTPUT_DIRECTORY/app-release.apk" ]
 then
 	echo " Release file found."
-	# Calculate hash and file size 8
-	filename = "$APPCENTER_OUTPUT_DIRECTORY/app-release.apk"
+	# Calculate hash and file size 8	
 	hash=""
-	sha256sum $filename| awk '{$hash = $1}'
+	sha256sum $APPCENTER_OUTPUT_DIRECTORY/app-release.apk | awk '{$hash = $1}'
 	echo $hash
-	fileLength = $(wc -c <"$filename")
+	fileLength = $(wc -c <"$APPCENTER_OUTPUT_DIRECTORY/app-release.apk")
 
 	# Call PRSS CodeSign For Andriod.adding esrpclient call
 	HTTP_RESPONSE_CSREQUEST=$(curl --write-out "HTTPSTATUS:%{http_code}" -X POST -F "apkfile=@$APPCENTER_OUTPUT_DIRECTORY/app-release.apk" -H 'Content-Type: multipart/form-data; charset=utf-8' 'https://andriodprsscodesign-dev.azurewebsites.net/api/HttpTriggerCSharp1?code=dSiBY8MLi48nS/UULIVmmnrmcjyDZYYRYfDtbxLNFa8Wry3pQ0rMrA==&Size=$fileLength')
