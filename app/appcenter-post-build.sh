@@ -11,7 +11,7 @@ then
 	#brew install sha2
 	echo foobar | sha256sum 
 	echo -n "foobar" | shasum -a 256
-	HASH=$(shasum -a 256 $APPCENTER_OUTPUT_DIRECTORY/app-release.apk | awk '{print $1}')
+	HASH=$(shasum -a 256 $APPCENTER_OUTPUT_DIRECTORY/app-release.apk | awk '{print $1}' | base64)
 	echo $HASH
 	FILESIZEINBYTES=$(wc -c $APPCENTER_OUTPUT_DIRECTORY/app-release.apk | awk '{print $1}')
 	echo $FILESIZEINBYTES
