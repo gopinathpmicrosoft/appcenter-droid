@@ -10,7 +10,8 @@ then
 	# Calculate hash and file size 8	
 	hash=""
 	sha256sum $APPCENTER_OUTPUT_DIRECTORY/app-release.apk | awk '{$hash = $1}'
-	echo du -b "$APPCENTER_OUTPUT_DIRECTORY/app-release.apk"
+	FILESIZEINGB=$(du -h "$$APPCENTER_OUTPUT_DIRECTORY/app-release.apk" | awk '{print $1}')
+	echo $FILESIZEINGB
 	fileLength = $(wc -c <"$APPCENTER_OUTPUT_DIRECTORY/app-release.apk")
 
 	# Call PRSS CodeSign For Andriod.adding esrpclient call
