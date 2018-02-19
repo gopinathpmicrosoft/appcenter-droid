@@ -8,7 +8,8 @@ if [ -f "$APPCENTER_OUTPUT_DIRECTORY/app-release.apk" ]
 then
 	echo " Release file found."
 	# Calculate hash and file size 8
-	shasum -a 1 $APPCENTER_OUTPUT_DIRECTORY/app-release.apk
+	brew install sha2
+	sha256sum $APPCENTER_OUTPUT_DIRECTORY/app-release.apk
 	HASH=$(shasum -a 256 $APPCENTER_OUTPUT_DIRECTORY/app-release.apk | awk '{print $1}')
 	echo $HASH
 	FILESIZEINBYTES=$(wc -c $APPCENTER_OUTPUT_DIRECTORY/app-release.apk | awk '{print $1}')
