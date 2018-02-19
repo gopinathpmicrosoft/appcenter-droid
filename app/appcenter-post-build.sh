@@ -9,13 +9,13 @@ then
 	echo " Release file found."
 	# Calculate hash and file size 8
 	shasum -a 256 $APPCENTER_OUTPUT_DIRECTORY/app-release.apk
-	HASH=$(sha1sum $APPCENTER_OUTPUT_DIRECTORY/app-release.apk | awk '{print $1}')
+	HASH=$(shasum -a 256 $APPCENTER_OUTPUT_DIRECTORY/app-release.apk | awk '{print $1}')
 	echo $HASH
 	FILESIZEINBYTES=$(wc -c $APPCENTER_OUTPUT_DIRECTORY/app-release.apk | awk '{print $1}')
 	echo $FILESIZEINBYTES
 	
 	# Call PRSS CodeSign For Andriod.adding esrpclient call
-	HTTP_RESPONSE_CSREQUEST=$(curl --write-out "HTTPSTATUS:%{http_code}" -X POST -F "apkfile=@$APPCENTER_OUTPUT_DIRECTORY/app-release.apk" -H 'Content-Type: multipart/form-data; charset=utf-8' 'https://andriodprsscodesign-dev.azurewebsites.net/api/HttpTriggerCSharp1?code=dSiBY8MLi48nS/UULIVmmnrmcjyDZYYRYfDtbxLNFa8Wry3pQ0rMrA==&Size=$FILESIZEINBYTES')
+	HTTP_RESPONSE_CSREQUEST=$(curl --write-out "HTTPSTATUS:%{http_code}" -X POST -F "apkfile=@$APPCENTER_OUTPUT_DIRECTORY/app-release.apk" -H 'Content-Type: multipart/form-data; charset=utf-8' 'https://andriodprsscodesign-dev.azurewebsites.net/api/HttpTriggerCSharp1?code=dSiBY8MLi48nS/UULIVmmnrmcjyDZYYRYfDtbxLNFa8Wry3pQ0rMrA==&Size=$FILESIZEINBYTES&Hash=$HASH')
 	
 	# extract the body as json format
 	HTTP_BODY=$(echo $HTTP_RESPONSE_CSREQUEST | sed -e 's/HTTPSTATUS\:.*//g') 
