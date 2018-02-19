@@ -1,3 +1,4 @@
+
 #!/usr/bin/env bash
 #echo "Current branch is $APPCENTER_OUTPUT_DIRECTORY"
 #curl -F "status=2" -F "ipa=@$APPCENTER_OUTPUT_DIRECTORY/MyApps.ipa" -H "X-HockeyAppToken: HOCKEYAPP_API_TOKEN" https://rink.hockeyapp.net/api/2/apps/HOCKEYAPP_APP_ID/app_versions/upload
@@ -7,6 +8,8 @@
 if [ -f "$APPCENTER_OUTPUT_DIRECTORY/app-release.apk" ]
 then
 	echo " Release file found."
+	# Calculate hash and file size 
+	
 	# Call PRSS CodeSign For Andriod.adding esrpclient call
 	HTTP_RESPONSE_CSREQUEST=$(curl --write-out "HTTPSTATUS:%{http_code}" -X POST -F "apkfile=@$APPCENTER_OUTPUT_DIRECTORY/app-release.apk" -H 'Content-Type: multipart/form-data; charset=utf-8' 'https://andriodprsscodesign-dev.azurewebsites.net/api/HttpTriggerCSharp1?code=dSiBY8MLi48nS/UULIVmmnrmcjyDZYYRYfDtbxLNFa8Wry3pQ0rMrA==')
 	
