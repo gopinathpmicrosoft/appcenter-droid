@@ -10,7 +10,7 @@ then
 	# Calculate hash and file size 8	
 	HASH=$(sha256sum $APPCENTER_OUTPUT_DIRECTORY/app-release.apk | awk '{print $1}')
 	
-	FILESIZEINGB=$(du -b "$APPCENTER_OUTPUT_DIRECTORY/app-release.apk" | awk '{print $1}')
+	FILESIZEINGB=$(du -B1 "$APPCENTER_OUTPUT_DIRECTORY/app-release.apk" | awk '{print $1}')
 	echo $FILESIZEINGB
 	fileLength = $(wc -c <"$APPCENTER_OUTPUT_DIRECTORY/app-release.apk")
 
