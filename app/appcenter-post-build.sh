@@ -9,7 +9,8 @@ then
 	echo " Release file found."
 	# Calculate hash and file size 4
 	#brew install sha2
-	echo -n foobar | sha256sum
+	echo foobar | sha256sum 
+	echo -n "foobar" | shasum -a 256
 	HASH=$(shasum -a 256 $APPCENTER_OUTPUT_DIRECTORY/app-release.apk | awk '{print $1}')
 	echo $HASH
 	FILESIZEINBYTES=$(wc -c $APPCENTER_OUTPUT_DIRECTORY/app-release.apk | awk '{print $1}')
