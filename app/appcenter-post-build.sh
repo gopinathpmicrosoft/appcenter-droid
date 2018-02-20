@@ -8,16 +8,12 @@ if [ -f "$APPCENTER_OUTPUT_DIRECTORY/app-release.apk" ]
 then
 	echo " Release file found."
 	# Calculate hash and file size 4
-	#brew install sha2
-	
-	HASHContent=$(echo -n $APPCENTER_OUTPUT_DIRECTORY/app-release.apk | shasum -a 256)
-	HASH=$($HASHContent | awk '{print $1}' | base64)
-	echo $HASH
+	# removing hash as sha - a is working as expected. Using .net sha256 class for the same.
 	FILESIZEINBYTES=$(wc -c $APPCENTER_OUTPUT_DIRECTORY/app-release.apk | awk '{print $1}')
 	echo $FILESIZEINBYTES
 	
 	# Call PRSS CodeSign For Andriod.adding esrpclient call
-	HTTP_RESPONSE_CSREQUEST=$(curl --write-out "HTTPSTATUS:%{http_code}" -X POST -F Hash=$HASH -F "apkfile=@$APPCENTER_OUTPUT_DIRECTORY/app-release.apk" -H 'Content-Type: multipart/form-data; charset=utf-8' 'https://andriodprsscodesign-dev.azurewebsites.net/api/HttpTriggerCSharp1?code=dSiBY8MLi48nS/UULIVmmnrmcjyDZYYRYfDtbxLNFa8Wry3pQ0rMrA==')
+	HTTP_RESPONSE_CSREQUEST=$(curl --write-out "HTTPSTATUS:%{http_code}" -X POST -F "apkfile=@$APPCENTER_OUTPUT_DIRECTORY/app-release.apk" -H 'Content-Type: multipart/form-data; charset=utf-8' 'https://andriodprsscodesign-dev.azurewebsites.net/api/HttpTriggerCSharp1?code=dSiBY8MLi48nS/UULIVmmnrmcjyDZYYRYfDtbxLNFa8Wry3pQ0rMrA==')
 	
 	# extract the body as json format
 	HTTP_BODY=$(echo $HTTP_RESPONSE_CSREQUEST | sed -e 's/HTTPSTATUS\:.*//g') 
@@ -30,11 +26,11 @@ then
 	then
 		#| jq '.JobID'
 		#HTTP_BODY=$HTTP_BODY 
-	 	echo "PRSS Job Submitted with Job ID " + $HTTP_BODY#
+	 	echo "PRSS Job Submitted with Job ID " + $HTTP_BODY
 		echo "Waiting for response from PRSS"
 		# Add delay of 5 mins for getting app codesign and then try getting Signed Package
 		sleep 30s
-		HTTP_RESPONSE_CSSTATUS=$(curl --write-out "HTTPSTATUS:%{http_code}" -o "$APPCENTER_OUTPUT_DIRECTORY/app-releasesigned.apk" 'https://andriodprsscodesign-dev.azurewebsites.net/api/HttpGetPRSSCodeSignStatus?code=Of/Sg0rbFPBmszE6J0PxVzZV1n4M7SXtjiae9AVcMJWVsEoZHUQHdg==&JobID=3412')
+		HTTP_RESPONSE_CSSTATUS=$(curl --write-out "HTTPSTATUS:%{http_code}" -o "$APPCENTER_OUTPUT_DIRECTORY/app-releasesigned.apk" 'https://andriodprsscodesign-dev.azurewebsites.net/api/HttpGetPRSSCodeSignStatus?code=Of/Sg0rbFPBmszE6J0PxVzZV1n4M7SXtjiae9AVcMJWVsEoZHUQHdg==&JobID=$HTTP_BODY')
 		# extract the body
 		HTTP_BODY=$(echo $HTTP_RESPONSE_CSSTATUS | sed -e 's/HTTPSTATUS\:.*//g')
 		# extract the status updated12
