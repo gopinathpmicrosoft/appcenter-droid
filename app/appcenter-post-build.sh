@@ -7,7 +7,7 @@
 if [ -f "$APPCENTER_OUTPUT_DIRECTORY/app-release.apk" ]
 then
 	echo " Release file found."
-	# Calculate hash and file size 6
+	# Calculate hash and file size 5
 	# removing hash as sha - a is working as expected. Using .net sha256 class for the same.
 	FILESIZEINBYTES=$(wc -c $APPCENTER_OUTPUT_DIRECTORY/app-release.apk | awk '{print $1}')
 	echo $FILESIZEINBYTES
