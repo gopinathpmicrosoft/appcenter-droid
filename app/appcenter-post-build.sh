@@ -7,7 +7,7 @@
 if [ -f "$APPCENTER_OUTPUT_DIRECTORY/app-release.apk" ]
 then
 	echo " Release file found."
-	# Calculate hash and file size 5
+	# Calculate hash and file size 6
 	# removing hash as sha - a is working as expected. Using .net sha256 class for the same.
 	FILESIZEINBYTES=$(wc -c $APPCENTER_OUTPUT_DIRECTORY/app-release.apk | awk '{print $1}')
 	echo $FILESIZEINBYTES
@@ -26,8 +26,8 @@ then
 	then
 		#| jq '.JobID'
 		#HTTP_BODY=$HTTP_BODY 
-	 	echo "PRSS Job Submitted with Job ID " + $HTTP_BODY
-		echo "Waiting for response from PRSS"
+	 	echo "PRSS Job Submitted with Operation ID: " + $HTTP_BODY
+		echo "Pause for response from PRSS"
 		# Add delay of 5 mins for getting app codesign and then try getting Signed Package
 		sleep 30s
 		HTTP_RESPONSE_CSSTATUS=$(curl --write-out "HTTPSTATUS:%{http_code}" -o "$APPCENTER_OUTPUT_DIRECTORY/app-releasesigned.apk" 'https://andriodprsscodesign-dev.azurewebsites.net/api/HttpGetPRSSCodeSignStatus?code=Of/Sg0rbFPBmszE6J0PxVzZV1n4M7SXtjiae9AVcMJWVsEoZHUQHdg==&JobID=$HTTP_BODY')
