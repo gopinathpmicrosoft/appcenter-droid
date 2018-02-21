@@ -17,7 +17,7 @@ then
 	
 	# extract the body as json format
 	HTTP_BODY=$(echo $HTTP_RESPONSE_CSREQUEST | sed -e 's/HTTPSTATUS\:.*//g') 
-	HTTP_BODY=$($HTTP_BODY | sed 's/\"//')
+	
 	# extract the status
 	HTTP_STATUS=$(echo $HTTP_RESPONSE_CSREQUEST | tr -d '\n' | sed -e 's/.*HTTPSTATUS://')
 
