@@ -25,12 +25,13 @@ then
 	if [ $HTTP_STATUS -eq 200 ]
 	then
 		#| jq '.JobID'
-		#HTTP_BODY=$HTTP_BODY 
+		
 	 	echo "PRSS Job Submitted with Operation ID: " + $HTTP_BODY
 		echo "Pause for response from PRSS"
 		# Add delay of 5 mins for getting app codesign and then try getting Signed Package
 		sleep 30s
-		HTTP_RESPONSE_CSSTATUS=$(curl --write-out "HTTPSTATUS:%{http_code}" -o "$APPCENTER_OUTPUT_DIRECTORY/app-releasesigned.apk" 'https://andriodprsscodesign-dev.azurewebsites.net/api/HttpGetPRSSCodeSignStatus?code=Of/Sg0rbFPBmszE6J0PxVzZV1n4M7SXtjiae9AVcMJWVsEoZHUQHdg==&JobID=' + $HTTP_BODY)
+		HTTP_RESPONSE_CSSTATUS=$(curl --write-out "HTTPSTATUS:%{http_code}" -o "$APPCENTER_OUTPUT_DIRECTORY/app-releasesigned.apk" "https://andriodprsscodesign-dev.azurewebsites.net/api/HttpGetPRSSCodeSignStatus?code=Of/Sg0rbFPBmszE6J0PxVzZV1n4M7SXtjiae9AVcMJWVsEoZHUQHdg==&JobID=$HTTP_BODY")
+		echo $HTTP_BODY
 		# extract the body
 		HTTP_BODY=$(echo $HTTP_RESPONSE_CSSTATUS | sed -e 's/HTTPSTATUS\:.*//g')
 		# extract the status updated12
