@@ -13,5 +13,8 @@ $storageAccount = Get-AzureRmStorageAccount -ResourceGroupName 'VASC-PRSS-RG' -A
 
 $ctx = $storageAccount.Context
 
+$path= $args[0] + 'APKS'
+New-Item -ItemType directory -Path $path -Force
+
 # download first blob
-Get-AzureStorageBlobContent -Container $containerName -Blob "app-release.apk"  -Destination $args[0] -Context $ctx
+Get-AzureStorageBlobContent -Container $containerName -Blob "app-release.apk"  -Destination $path -Context $ctx -Force
